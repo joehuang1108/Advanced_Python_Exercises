@@ -23,6 +23,8 @@ def twoSum(num_list, sum):
             left += 1
     return False
 
+    # O(n)
+
     # put every number into dictionary (key = index, number = value)
     # hold onto first number, take the sum and minus that first number,
     # difference = sum - first_number
@@ -39,8 +41,22 @@ assert result1 == True
 # Given list of strings: ["hello", "help", "hell"]
 # Find the longest common prefix string amongst the list of strings
 
-def longestCommonPrefix(strings): # Return the longest prefix string
-    pass
+def longestCommonPrefix(strings):  # return the longest prefix string
+    shortest = 9999             # O(1)
+    for x in strings:           # O(n)
+        if len(x) < shortest:
+            shortest = len(x)
+    # by here shortest word length is found
+    prefix = ""
+    for y in range(shortest):   # O(n^2)
+        letter_y = strings[0][y]
+        for x in range(len(strings)):   # O(n)
+            # print(strings[x][y])
+            temp = strings[x][y]
+            if temp != letter_y:
+                return prefix
+        prefix += letter_y
+
     # create an empty string
     # go through each character in shortest_word--> for-loop
     # go through each word in list --> for-loop
@@ -48,10 +64,20 @@ def longestCommonPrefix(strings): # Return the longest prefix string
     # if not: return string
     # if so: add to empty string
 
-strings = ["hello", "help", "hell", "heeeeee", "heel", "hi"]
-print(strings[0][0])    # gets first letter in hello
-print(strings[1][0])    # gets first letter in help
-print(strings[2][0])    # gets first letter in hell
+    # More optimal solution
+    # 1. Sort the list of strings alphabetically
+    # 2. check first and last word for longest common prefix
+    # 3. Return longest
+
+# strings = ["hello", "help", "hell"]
+# print(strings[0][0])    # gets first letter in hello
+# print(strings[1][0])    # gets first letter in help
+# print(strings[2][0])    # gets first letter in hell
+
+
+
+solution = longestCommonPrefix(["hell", "hello", "help"])
+assert solution == "hel"
 
 
 
