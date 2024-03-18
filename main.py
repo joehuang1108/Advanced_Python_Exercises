@@ -75,20 +75,152 @@ def longestCommonPrefix(strings):  # return the longest prefix string
 # print(strings[2][0])    # gets first letter in hell
 
 
-
 solution = longestCommonPrefix(["hell", "hello", "help"])
 assert solution == "hel"
 
 
+# Exercise #3
+# Best time to buy and sell stock
+# input: list of integers --> price of that stock per day
+# output: find maximum profit where you will buy from the cheapest and sell at a later time
+
+def maxProfit(prices):
+    # profit = 0
+    # for each number in prices:
+    #   temp = number
+    #   for every number after temp:
+    #       get diff between number and temp
+    #       update profit variable
+    # return profit
+
+    # O(n * m)
+    # profit = 0
+    # for x in range(len(prices)): # O(n)
+    #     temp = prices[x]
+    #     for y in range(x+1, len(prices)):  # O(m)
+    #         diff = prices[y] - temp
+    #         if diff > profit:
+    #             profit = diff
+    # return profit
+
+    # Goal: O(n)
+    # loop through each number in list
+    # at each iteration, update the maximum profit
+    # AND find out minimum price
+    # maximum profit = max(profit, number-minimum)
+    minimum = prices[0]
+    profit = 0
+    for price in prices[1:]:
+        profit = max(price-minimum, profit)
+        minimum = min(price, minimum)
+
+    return profit
+
+profit = maxProfit([7,1,5,3,6,4])
+assert profit == 5
+
+profit = maxProfit([7,6,4,3,1])
+assert profit == 0
 
 
+# Exercise #4
+# Merge and sort two lists
+# Given two lists, merge them into one list and sorted
 
+def bubbleSort(final_list): # O(N^2)
+    for x in range(len(final_list)):
+        for y in range(len(final_list) - x - 1):
+            if (final_list[y] > final_list[y + 1]):
+                # QUICK SWAP
+                # a, b = b, a
+                final_list[y], final_list[y + 1] = final_list[y + 1], final_list[y]
+    return final_list
 
+def selectionSort(list): # O(N^2)
+    # repeatedly selects the smallest element from list and
+    # swaps it with first element (or index)
+    # Loops through input list
+    for x in range(len(list)):
+        # Find smallest element to swap
+        smallest = x
+        for y in range(x+1, len(list)):
+            if(list[smallest] > list[y]):
+                smallest = y
 
+        # Conduct swapping here since smallest is found
+        list[x], list[smallest] = list[smallest], list[x]
+    return list
 
+def insertionSort(list): # O(N^2)
+    # it attempts to maintain ascending order
+    for x in range(1, len(list)):
+        key = list[x]
 
+        # Loop to move element to proper place
+        index = x - 1
+        while key < list[index]:
+            list[index+1] = list[index]
+            index -= 1
+        list[index+1] = key
+    return list
 
+# index = 2
+# key = 5
+# 5 < list[2] --> yes
+# list[3] = 13
+# index = 1
+# 5 < list[1] --> yes
+# list[2] = 12
+# index = 0
 
+# [38, 27, 43, 10]
+# [38, 27]          [43, 10]
+# [38] [27]         [43]  [10]
+# [27, 38]          [10, 43]
 
+def mergeSort(list):
+    if len(list) > 1:
+        mid = len(list)//2
+        left = list[0:mid]
+        right = list[mid:]
+
+        mergeSort(left)
+        mergeSort(right)
+
+        #### Algorithm of mergesort
+        # [38] [27]
+        x = 0
+        y = 0
+        z = 0
+        while x < len(left) and y < len(right):
+            if left[x] <= right[y]:
+                list[z] = left[x]
+                x += 1
+            else:
+                list[z] = right[y]
+                y += 1
+            z += 1
+        while x < len(left):
+            list[z] = left[x]
+            x += 1
+            z += 1
+        while y < len(right):
+            list[z] = right[y]
+            y += 1
+            z += 1
+
+    return list
+
+def mergeSortList(list1, list2):
+    final_list = list1 + list2
+    return mergeSort(final_list)
+
+# [1,5,3,2]
+# [1,5,3,2]
+# [1,2,3,5]
+
+answer = mergeSortList([1,3,5,7], [2,4,6,8])
+print(answer)
+# assert answer == [1,2,3,4,5,6,7,8]
 
 
